@@ -1,5 +1,5 @@
-*[INetEvent]()
-*[CELLServe](https://github.com/Planck-a/serve-in-cpp/blob/master/code/CELLServer.hpp)
+* [INetEvent]()
+* [CELLServe](https://github.com/Planck-a/serve-in-cpp/blob/master/code/CELLServer.hpp)
 
 ```cpp
 class CELLServer
@@ -38,7 +38,7 @@ public:
 
 }
 ```
-*` setEventObj本类对4个网络事件的处理方法，在EasyTCPServe中初始化化时有ser->setEventObj(this),所以最终调用的是EasyTCPServe中的事件处理函数，
+* ` setEventObj本类对4个网络事件的处理方法，在EasyTCPServe中初始化化时有ser->setEventObj(this),所以最终调用的是EasyTCPServe中的事件处理函数，
 由于最终是Serve创建的对象，所以不只是计数，而是调用Serve中的方法。`
-*`把缓冲区中的csock拿到正式队列中，如果客户端有变化的话，把正式队列的csock加入到fdRead中，并备份，如果没变化的话，
+* `把缓冲区中的csock拿到正式队列中，如果客户端有变化的话，把正式队列的csock加入到fdRead中，并备份，如果没变化的话，
 则直接把备份的内容拿给fdRead，省去了一次遍历`

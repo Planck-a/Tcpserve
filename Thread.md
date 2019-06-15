@@ -1,4 +1,7 @@
 [Thread](https://github.com/Planck-a/Tcpserve/blob/master/code/CELLThread.hpp)
+`线程本身是可以在类外调用类内部的函数，通过std::thread()，但是存在线程的安全退出问题；为了解决这个问题，引入了信号量机制，线程退出函数先被wait阻塞，在线程运行结束后调用wakeup接触阻塞，正常退出；所以把线程单独做成一个类，重点放在线程的退出顺序`
+---
+```cpp
 class CELLThread
 {
 private:
@@ -18,6 +21,7 @@ public:
     void OnWork();//依次执行_onCreate，_onRun，_onDestory，当Onrun()循环执行结束后，意味着线程结束，这时会调用wakeup解除阻塞关闭线程
     void Close();//调用wait阻塞，等待解除
 }
+```
 
 ```cpp
 关于lamada表达式和function的使用：

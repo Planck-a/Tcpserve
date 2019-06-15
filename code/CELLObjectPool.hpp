@@ -4,6 +4,7 @@
 #include<assert.h>
 #include<mutex>
 
+
 #ifdef _DEBUG
 	#ifndef xPrintf
 		#include<stdio.h>
@@ -33,21 +34,21 @@ private:
 	class NodeHeader
 	{
 	public:
-		//ÏÂÒ»¿éÎ»ÖÃ
+		//ä¸‹ä¸€å—ä½ç½®
 		NodeHeader* pNext;
-		//ÄÚ´æ¿é±àºÅ
+		//å†…å­˜å—ç¼–å·
 		int nID;
-		//ÒıÓÃ´ÎÊı
+		//å¼•ç”¨æ¬¡æ•°
 		char nRef;
-		//ÊÇ·ñÔÚÄÚ´æ³ØÖĞ
+		//æ˜¯å¦åœ¨å†…å­˜æ± ä¸­
 		bool bPool;
 	private:
-		//Ô¤Áô
+		//é¢„ç•™
 		char c1;
 		char c2;
 	};
 public:
-	//ÊÍ·Å¶ÔÏóÄÚ´æ
+	//é‡Šæ”¾å¯¹è±¡å†…å­˜
 	void freeObjMemory(void* pMem)
 	{
 		NodeHeader* pBlock = (NodeHeader*)((char*)pMem - sizeof(NodeHeader));
@@ -71,7 +72,7 @@ public:
 			delete[] pBlock;
 		}
 	}
-	//ÉêÇë¶ÔÏóÄÚ´æ
+	//ç”³è¯·å¯¹è±¡å†…å­˜
 	void* allocObjMemory(size_t nSize)
 	{
 		std::lock_guard<std::mutex> lg(_mutex);
@@ -94,25 +95,25 @@ public:
 		return ((char*)pReturn + sizeof(NodeHeader));
 	}
 private:
-	//³õÊ¼»¯¶ÔÏó³Ø
+	//åˆå§‹åŒ–å¯¹è±¡æ± 
 	void initPool()
 	{
-		//¶ÏÑÔ
+		//æ–­è¨€
 		assert(nullptr == _pBuf);
 		if (_pBuf)
 			return;
-		//¼ÆËã¶ÔÏó³ØµÄ´óĞ¡
+		//è®¡ç®—å¯¹è±¡æ± çš„å¤§å°
 		size_t realSzie = sizeof(Type) + sizeof(NodeHeader);
 		size_t n = nPoolSzie*realSzie;
-		//ÉêÇë³ØµÄÄÚ´æ
+		//ç”³è¯·æ± çš„å†…å­˜
 		_pBuf = new char[n];
-		//³õÊ¼»¯ÄÚ´æ³Ø
+		//åˆå§‹åŒ–å†…å­˜æ± 
 		_pHeader = (NodeHeader*)_pBuf;
 		_pHeader->bPool = true;
 		_pHeader->nID = 0;
 		_pHeader->nRef = 0;
 		_pHeader->pNext = nullptr;
-		//±éÀúÄÚ´æ¿é½øĞĞ³õÊ¼»¯
+		//éå†å†…å­˜å—è¿›è¡Œåˆå§‹åŒ–
 		NodeHeader* pTemp1 = _pHeader;
 
 		for (size_t n = 1; n < nPoolSzie; n++)
@@ -129,7 +130,7 @@ private:
 private:
 	//
 	NodeHeader* _pHeader;
-	//¶ÔÏó³ØÄÚ´æ»º´æÇøµØÖ·
+	//å¯¹è±¡æ± å†…å­˜ç¼“å­˜åŒºåœ°å€
 	char* _pBuf;
 	//
 	std::mutex _mutex;
@@ -151,9 +152,9 @@ public:
 
 	template<typename ...Args>
 	static Type* createObject(Args ... args)
-	{	//²»¶¨²ÎÊı  ¿É±ä²ÎÊı
+	{	//ä¸å®šå‚æ•°  å¯å˜å‚æ•°
 		Type* obj = new Type(args...);
-		//¿ÉÒÔ×öµãÏë×öµÄÊÂÇé
+		//å¯ä»¥åšç‚¹æƒ³åšçš„äº‹æƒ…
 		return obj;
 	}
 
@@ -166,7 +167,7 @@ private:
 	typedef CELLObjectPool<Type, nPoolSzie> ClassTypePool;
 	//
 	static ClassTypePool& objectPool()
-	{	//¾²Ì¬CELLObjectPool¶ÔÏó
+	{	//é™æ€CELLObjectPoolå¯¹è±¡
 		static ClassTypePool sPool;
 		return sPool;
 	}

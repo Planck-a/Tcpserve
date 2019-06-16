@@ -26,7 +26,7 @@ public:
   void setEventObj(INetEvent* event);//INetEvent,设置网络事件，
   void Close();//
   void OnRun(CELLThread* pThread);//核心，循环处理网络消息，用select判断整个fdread,更新后的fdRead调用ReadData()和write();
-  void ReadData(fd_set& fdRead);//检查整个fdRead，挨个调用CELLClient的[RecvData()]()，触发OnNetRecv，OnNetMsg
+  void ReadData(fd_set& fdRead);//检查整个fdRead，挨个调用CELLClient的[RecvData()]()，触发OnNetRecv计数，OnNetMsg对收到消息进行回复
   void WriteData(fd_set& fdWrite);//检查整个fdRead，挨个调用CELLClient的[SendDataReal()]()
   void CheckTime();//心跳检测，看正式队列中的csock是否都在线，还活着
   void Start()；//启动_taskServer，同时启动Onrun()线程

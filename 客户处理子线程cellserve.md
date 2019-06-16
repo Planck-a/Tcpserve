@@ -27,7 +27,7 @@ public:
   void Close();//
   void OnRun(CELLThread* pThread);//核心，循环处理网络消息，用select判断整个fdread,更新后的fdRead调用ReadData()和write();
   void ReadData(fd_set& fdRead);//检查整个fdRead，挨个调用CELLClient的[RecvData()]()，触发OnNetRecv，OnNetMsg
-  void WriteData(fd_set& fdWrite);//调用CELLClient的[SendDataReal()]()
+  void WriteData(fd_set& fdWrite);//检查整个fdRead，挨个调用CELLClient的[SendDataReal()]()
   void CheckTime();//心跳检测，看正式队列中的csock是否都在线，还活着
   void Start()；//启动_taskServer，同时启动Onrun()线程
   
@@ -41,3 +41,4 @@ public:
 * ` setEventObj本类对4个网络事件的处理方法，在EasyTCPServe中初始化化时有ser->setEventObj(this),所以最终调用的是EasyTCPServe中的事件处理函数，
 由于最终是Serve创建的对象，所以不只是计数，而是调用Serve中的方法。`
 * `未加入备份思想之前，每次Onrun（）都会重新把_clients整个写入fdRead中，造成资源的浪费；加入备份后，把缓冲区中的csock拿到正式队列中，如果客户端有变化的话，把正式队列的csock加入到fdRead中，并备份，如果没变化的话，则直接把备份的fdRead——bak拿给fdRead，省去了一次遍历`
+* `引入map来存储sock和封装的sock之间的对应关系，fdRead要用sock，发送和接收数据要用封装的sock`

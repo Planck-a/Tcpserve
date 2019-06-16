@@ -29,7 +29,7 @@ public:
   void ReadData(fd_set& fdRead);//检查整个fdRead，挨个调用CELLClient的[RecvData()]()，触发OnNetRecv，OnNetMsg
   void WriteData(fd_set& fdWrite);//调用CELLClient的[SendDataReal()]()
   void CheckTime();//心跳检测，看正式队列中的csock是否都在线，还活着
-  void Start()；//启动_taskServer，在线程中启动Onrun()
+  void Start()；//启动_taskServer，同时启动Onrun()线程
   
   virtual void OnNetMsg(CELLClient* pClient, netmsg_DataHeader* header);//调用的是EasyTCPServe中的事件处理函数，由于最终是Serve创建的对象，
   //所以不只是计数，而是调用Serve中的方法

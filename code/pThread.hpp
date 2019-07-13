@@ -1,4 +1,3 @@
-```cpp
 #include "threadpool.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -75,10 +74,9 @@ int condition_destroy(condition_t *cond)
     return 0;
 }
 
-```
 
-线程池子和任务队列的设计
-```cpp
+
+//线程池子和任务队列的设计
 
 typedef struct task
 {

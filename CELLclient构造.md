@@ -32,7 +32,7 @@ private:
   
 public:
     int id = -1;//所属serverid	
-	  int serverId = -1;
+    int serverId = -1;
     CELLClient(SOCKET sockfd = INVALID_SOCKET):	_sendBuff(SEND_BUFF_SZIE),	_recvBuff(RECV_BUFF_SZIE);
     ~CELLClient();
     int RecvData();//调用read4socket(_sockfd);
